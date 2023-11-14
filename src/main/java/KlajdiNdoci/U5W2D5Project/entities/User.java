@@ -4,18 +4,24 @@ import KlajdiNdoci.U5W2D5Project.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Getter
 @ToString
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private long id;
     private String username;
     private String name;
@@ -23,41 +29,39 @@ public class User {
     private String email;
     private String avatar;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     @ToString.Exclude
     private List<Device> devices;
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
-    }
+
 }
