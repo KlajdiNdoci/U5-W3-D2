@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
@@ -57,6 +58,9 @@ public class UserController {
     @PostMapping("/{id}/upload")
     @PreAuthorize("hasAuthority('ADMIN')")
     public User upload(@RequestParam("avatar") MultipartFile body, @PathVariable long id) throws IOException {
+        if (!Objects.equals(body.getContentType(), "multipart/form-data")) {
+            throw new BadRequestException("Insert a supported file");
+        }
         return userService.uploadPicture(body, id);
     }
 
@@ -78,6 +82,9 @@ public class UserController {
 
     @PostMapping("/me/upload")
     public UserDetails uploadOnProfile(@AuthenticationPrincipal User currentUser,  @RequestParam("avatar") MultipartFile body) throws IOException {
+        if (!Objects.equals(body.getContentType(), "multipart/form-data")) {
+            throw new BadRequestException("Insert a supported file");
+        }
         return userService.uploadPicture(body, currentUser.getId());
     }
 
