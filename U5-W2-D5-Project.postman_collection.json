@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "a30b51f2-1332-43f1-a711-ee1d9a3a0f2f",
+		"name": "U5-W2-D5-Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29293800"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GET USERS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"{{$randomUserName}}\",\r\n    \"name\": \"{{$randomFirstName}}\",\r\n    \"surname\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FIND USER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE USER",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/35",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"35"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MODIFY USER",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"AldoBaglio\",\r\n    \"name\": \"Aldo\",\r\n    \"surname\": \"Baglio\",\r\n    \"email\": \"aldobaglio@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MODIFY AVATAR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/klajd/Downloads/Animated-GIF-Banana.gif"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/1/upload",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Devices",
+			"item": [
+				{
+					"name": "GET DEVICES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/devices",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD DEVICE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"deviceType\":\"smartphone\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/devices",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FIND DEVICE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/devices/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"devices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE DEVICE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/devices/3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"devices",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MODIFY DEVICE",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"deviceType\":\"smartphone\",\r\n    \"userId\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/devices/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"devices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ASSIGN DEVICE",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":6\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/devices/8/assign",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"devices",
+								"8",
+								"assign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DISMISS DEVICE",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/devices/8/dismiss",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"devices",
+								"8",
+								"dismiss"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SERVICE DEVICE",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3001"
+		}
+	]
+}
