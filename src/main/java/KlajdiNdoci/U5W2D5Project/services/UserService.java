@@ -15,12 +15,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -58,6 +58,12 @@ public class UserService {
         for (Device device : devices) {
             device.setUser(null);
             device.setDeviceState(DeviceState.AVAILABLE);
+
+        }
+        try {
+            Map result = cloudinary.uploader().destroy(getPublicIdFromUrl(found.getAvatar()), ObjectUtils.emptyMap());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         userRepository.delete(found);
     }
@@ -83,5 +89,11 @@ public class UserService {
 
     public User findByEmail(String email){
         return userRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("User with email " + email + "not found"));
+    }
+
+    private String getPublicIdFromUrl(String imageUrl) {
+        int startIndex = imageUrl.lastIndexOf("/") + 1;
+        int endIndex = imageUrl.lastIndexOf(".");
+        return imageUrl.substring(startIndex, endIndex);
     }
 }

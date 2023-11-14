@@ -58,11 +58,13 @@ public class UserController {
     @PostMapping("/{id}/upload")
     @PreAuthorize("hasAuthority('ADMIN')")
     public User upload(@RequestParam("avatar") MultipartFile body, @PathVariable long id) throws IOException {
-        if (!Objects.equals(body.getContentType(), "multipart/form-data")) {
-            throw new BadRequestException("Insert a supported file");
+        try {
+            return userService.uploadPicture(body, id);
+        }catch (Exception e){
+            throw new BadRequestException(e.getMessage());
         }
-        return userService.uploadPicture(body, id);
     }
+    
 
     @GetMapping("/me")
     public UserDetails getProfile(@AuthenticationPrincipal UserDetails currentUser){
@@ -82,10 +84,11 @@ public class UserController {
 
     @PostMapping("/me/upload")
     public UserDetails uploadOnProfile(@AuthenticationPrincipal User currentUser,  @RequestParam("avatar") MultipartFile body) throws IOException {
-        if (!Objects.equals(body.getContentType(), "multipart/form-data")) {
-            throw new BadRequestException("Insert a supported file");
+        try {
+            return userService.uploadPicture(body, currentUser.getId());
+        }catch (Exception e){
+            throw new BadRequestException(e.getMessage());
         }
-        return userService.uploadPicture(body, currentUser.getId());
     }
 
 }
