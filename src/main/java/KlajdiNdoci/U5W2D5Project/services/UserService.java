@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,22 +36,7 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-    public User save(NewUserDTO body) throws IOException {
 
-        userRepository.findByEmail(body.email()).ifPresent( user -> {
-            throw new BadRequestException("The email " + user.getEmail() + " has already been used!");
-        });
-
-        User newUser = new User();
-        newUser.setAvatar("https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
-        newUser.setUsername(body.username());
-        newUser.setName(body.name());
-        newUser.setSurname(body.surname());
-        newUser.setRole(Role.USER);
-        newUser.setEmail(body.email());
-        newUser.setPassword(body.password());
-        return userRepository.save(newUser);
-    }
 
     public User findById(long id) throws NotFoundException{
         User found = null;
