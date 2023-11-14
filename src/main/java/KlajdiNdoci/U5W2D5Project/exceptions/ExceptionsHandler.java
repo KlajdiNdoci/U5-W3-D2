@@ -3,6 +3,7 @@ package KlajdiNdoci.U5W2D5Project.exceptions;
 import KlajdiNdoci.U5W2D5Project.payloads.ErrorsResponseDTO;
 import KlajdiNdoci.U5W2D5Project.payloads.ErrorsResponseWithListDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -46,6 +47,12 @@ public class ExceptionsHandler {
     @ExceptionHandler(MultipartException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsResponseDTO handleMultipart(MultipartException e) {
+        return new ErrorsResponseDTO(e.getMessage(), new Date());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN) // 403
+    public ErrorsResponseDTO handleAccessDenied(AccessDeniedException e){
         return new ErrorsResponseDTO(e.getMessage(), new Date());
     }
 

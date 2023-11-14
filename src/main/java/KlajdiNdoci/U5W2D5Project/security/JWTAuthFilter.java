@@ -31,7 +31,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Use the Bearer Token in the Authorization header");
+            throw new UnauthorizedException("Use the Bearer Token in the Authorization header");
         }else {
             String token = authHeader.substring(7);
             jwtTools.verifyToken(token);

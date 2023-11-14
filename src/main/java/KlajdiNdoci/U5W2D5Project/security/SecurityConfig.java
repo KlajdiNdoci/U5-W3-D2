@@ -1,5 +1,6 @@
 package KlajdiNdoci.U5W2D5Project.security;
 
+import KlajdiNdoci.U5W2D5Project.exceptions.ExceptionsHandlerFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +18,15 @@ public class SecurityConfig {
     @Autowired
     JWTAuthFilter jwtAuthFilter;
 
+    @Autowired
+    ExceptionsHandlerFilter exceptionsHandlerFilter;
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.formLogin(AbstractHttpConfigurer::disable);
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(exceptionsHandlerFilter, JWTAuthFilter.class);
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").permitAll());
         return httpSecurity.build();
     }
