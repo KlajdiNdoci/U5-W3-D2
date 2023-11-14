@@ -7,6 +7,9 @@ import KlajdiNdoci.U5W2D5Project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +38,15 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findByIdAndDelete(@PathVariable int id) {
+    public void findByIdAndDelete(@PathVariable long id) {
         userService.findByIdAndDelete(id);
     }
 
     @PutMapping("/{id}")
-    public User findByIdAndUpdate(@PathVariable int id, @RequestBody @Validated NewUserDTO body,BindingResult validation) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public User findByIdAndUpdate(@PathVariable long id, @RequestBody @Validated NewUserDTO body,BindingResult validation) {
         if (validation.hasErrors()){
             throw new BadRequestException(validation.getAllErrors());
         }else {
@@ -50,8 +55,31 @@ public class UserController {
     }
 
     @PostMapping("/{id}/upload")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User upload(@RequestParam("avatar") MultipartFile body, @PathVariable long id) throws IOException {
         return userService.uploadPicture(body, id);
     }
+
+    @GetMapping("/me")
+    public UserDetails getProfile(@AuthenticationPrincipal UserDetails currentUser){
+        return currentUser;
+    }
+
+    @PutMapping("/me")
+    public UserDetails updateProfile(@AuthenticationPrincipal User currentUser, @RequestBody NewUserDTO body){
+        return userService.findByIdAndUpdate(currentUser.getId(), body);
+    }
+
+    @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProfile(@AuthenticationPrincipal User currentUser){
+        userService.findByIdAndDelete(currentUser.getId());
+    }
+
+    @PostMapping("/me/upload")
+    public UserDetails uploadOnProfile(@AuthenticationPrincipal User currentUser,  @RequestParam("avatar") MultipartFile body) throws IOException {
+        return userService.uploadPicture(body, currentUser.getId());
+    }
+
 }
 

@@ -66,7 +66,7 @@ public class UserService {
         }
     }
 
-    public void findByIdAndDelete(int id)throws NotFoundException {
+    public void findByIdAndDelete(long id)throws NotFoundException {
         User found = this.findById(id);
         List<Device> devices = found.getDevices();
         for (Device device : devices) {
@@ -76,7 +76,7 @@ public class UserService {
         userRepository.delete(found);
     }
 
-    public User findByIdAndUpdate(int id, NewUserDTO body) throws NotFoundException{
+    public User findByIdAndUpdate(long id, NewUserDTO body) throws NotFoundException{
         User found = this.findById(id);
         found.setUsername(body.username());
         found.setEmail(body.email());
