@@ -1,5 +1,6 @@
 package KlajdiNdoci.U5W2D5Project.entities;
 
+import KlajdiNdoci.U5W2D5Project.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +23,7 @@ public class User {
     private String email;
     private String avatar;
     private String password;
+    private Role role;
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     @ToString.Exclude
@@ -33,6 +35,10 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public void setSurname(String surname) {

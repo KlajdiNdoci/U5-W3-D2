@@ -3,6 +3,7 @@ package KlajdiNdoci.U5W2D5Project.services;
 import KlajdiNdoci.U5W2D5Project.entities.Device;
 import KlajdiNdoci.U5W2D5Project.entities.User;
 import KlajdiNdoci.U5W2D5Project.enums.DeviceState;
+import KlajdiNdoci.U5W2D5Project.enums.Role;
 import KlajdiNdoci.U5W2D5Project.exceptions.BadRequestException;
 import KlajdiNdoci.U5W2D5Project.exceptions.NotFoundException;
 import KlajdiNdoci.U5W2D5Project.payloads.NewUserDTO;
@@ -45,6 +46,7 @@ public class UserService {
         newUser.setUsername(body.username());
         newUser.setName(body.name());
         newUser.setSurname(body.surname());
+        newUser.setRole(Role.USER);
         newUser.setEmail(body.email());
         newUser.setPassword(body.password());
         return userRepository.save(newUser);
@@ -80,6 +82,7 @@ public class UserService {
         found.setEmail(body.email());
         found.setSurname(body.surname());
         found.setName(body.name());
+        found.setRole(Role.USER);
         found.setPassword(body.password());
         found.setAvatar("https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
         return userRepository.save(found);
